@@ -19,7 +19,7 @@ This library was tested on Python 3.12.9 and 3.12.10 (Mac). The analysis reporte
 
 ### Data preparation
 
-The current code is tailored to process the cross-layer rat motor cortex dataset previously described in [Isomura et al. (2009)](https://www.nature.com/articles/nn.2431), published as [**10.5281/zenodo.22055254**](https://zenodo.org/records/22055254). Each session contains `All.clu.X` and `All.res.X` files, with X = 1, 2 indicating the index of the tetrode (1: L2/3, also referred to as "superficial layer"; 2: L5, or "deep layer").
+The current code is tailored to process the cross-layer rat motor cortex dataset previously described in [Isomura et al. (2009)](https://www.nature.com/articles/nn.2431), published as [doi:10.5281/zenodo.22055254](https://zenodo.org/records/22055254). Each session contains `All.clu.X` and `All.res.X` files, with X = 1, 2 indicating the index of the tetrode (1: L2/3, also referred to as "superficial layer"; 2: L5, or "deep layer").
 
 Additionally, this library takes as input the results of [`spykesim-lite`](https://github.com/oist-ncbc/spykesim-lite), a collection of scripts that perform edit similarity calculation between two time series of multi-neuron spiking activity. In particular, `graphcheck` uses the `final_prof_dict_{suffix}.npz` dictionary file, which contains profile information.
 
@@ -65,7 +65,7 @@ Supplementary figures can be obtained by changing the exponential gap penalty pa
 - `scripts/supp_figure3_upload.ipynb`
 - `scripts/supp_figure4_upload.ipynb`
 
-*Note: statistical tests were explored using an automated heuristic based on sample normality and variance diagnostics but were then set manually. They may not match the reported values if changed.*
+*Note: statistical tests were explored using an automated heuristic based on sample normality and variance diagnostics but were then set manually. Reported values match the currently selected tests.*
 
 ## License
 
