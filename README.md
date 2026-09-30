@@ -1,6 +1,6 @@
 # Carvalho, Cojocaru and Fukai (2026)
 
-This repository includes the scripts and notebooks required to reproduce the results of "Cross-layer non-random networks associated with reward-earning motor behavior" (provisional title, under preparation). The graph-based analysis is run with the help of a local library, `graphcheck`. This analysis uses the output of the analysis run using [`spykesim-lite`](https://github.com/oist-ncbc/spykesim-lite).
+This repository includes the scripts and notebooks required to reproduce the results of "Cross-layer non-random networks associated with reward-earning motor behavior" (provisional title, submitted for review). The graph-based analysis is run with the help of a local library, `graphcheck`. This analysis uses the output of the analysis run using [`spykesim-lite`](https://github.com/oist-ncbc/spykesim-lite).
 
 ## Requirements
 
