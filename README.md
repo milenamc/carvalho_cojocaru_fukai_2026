@@ -13,6 +13,7 @@ This library was tested on Python 3.12.9 and 3.12.10 (Mac). The analysis reporte
 - `matplotlib` (3.11.2)
 - `seaborn` (0.13.2)
 - `statannotations` (0.7.2)
+- `statsmodels` (0.15.0)
 
 ## How to run
 
