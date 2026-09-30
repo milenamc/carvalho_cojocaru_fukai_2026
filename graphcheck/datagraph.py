@@ -39,8 +39,84 @@ class DataGraph:
         self.graph = graph
 
 
+    def _get_sanitized_graph_copy(self):
+        """
+        Creates a GEXF-safe graph copy. Added to address recent updates in NetworkX
+        that enforce stricter type checking for GEXF export.
+        """
+        def _cast(value):
+            if isinstance(value, np.bool_):
+                return bool(value)
+            if isinstance(value, np.integer):
+                return int(value)
+            if isinstance(value, np.floating):
+                return float(value)
+            if isinstance(value, np.ndarray):
+                return value.tolist()
+            return value
+
+        G = self.graph.G.copy()
+
+        # first convert NumPy types
+        for _, attrs in G.nodes(data=True):
+            for k, v in attrs.items():
+                attrs[k] = _cast(v)
+
+        for _, _, attrs in G.edges(data=True):
+            for k, v in attrs.items():
+                attrs[k] = _cast(v)
+
+        # normalize node numeric attribute types
+        node_attr_types = {}
+
+        for _, attrs in G.nodes(data=True):
+            for key, value in attrs.items():
+                # bool is a subclass of int, so explicitly exclude it
+                if isinstance(value, bool):
+                    continue
+                if isinstance(value, (int, float)):
+                    node_attr_types.setdefault(key, set()).add(type(value))
+
+        for key, types in node_attr_types.items():
+            if int in types and float in types:
+                # if both int and float types are present, convert all int values to float
+                for _, attrs in G.nodes(data=True):
+                    if (
+                        key in attrs
+                        and isinstance(attrs[key], int)
+                        and not isinstance(attrs[key], bool)
+                    ):
+                        attrs[key] = float(attrs[key])
+
+        # same for edge attributes
+        edge_attr_types = {}
+
+        for _, _, attrs in G.edges(data=True):
+            for key, value in attrs.items():
+                if isinstance(value, bool):
+                    continue
+                if isinstance(value, (int, float)):
+                    edge_attr_types.setdefault(key, set()).add(type(value))
+
+        for key, types in edge_attr_types.items():
+            if int in types and float in types:
+                for _, _, attrs in G.edges(data=True):
+                    if (
+                        key in attrs
+                        and isinstance(attrs[key], int)
+                        and not isinstance(attrs[key], bool)
+                    ):
+                        attrs[key] = float(attrs[key])
+
+        return G
+
+
     def export_graph(self, path_out: str):
-        self.graph.write_gephi(f"{path_out}{self.data.session}_{self.data.stage}_{self.data.alpha}_{self.method}")        
+        sanitized_G = self._get_sanitized_graph_copy()
+        self.graph.write_gephi(
+            f"{path_out}{self.data.session}_{self.data.stage}_{self.data.alpha}_{self.method}",
+            G=sanitized_G
+        )
 
 
     def create_df_neuron(self):

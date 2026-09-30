@@ -109,7 +109,7 @@ class Graph:
         weighted_clustering = nx.clustering(self.G, weight="norm_weight")
         pagerank = nx.pagerank(self.G, weight="weight")
         degrees = dict(self.G.degree())
-        hubs, authorities = nx.hits(self.G, normalized=True)
+        hubs, authorities = nx.hits(self.G, normalized=True, method="svd")
 
         for node in self.G.nodes():
             attributes[node] = {
@@ -232,11 +232,13 @@ class Graph:
         log.lwrite("Omega: " + str(self.omega))
 
 
-    def write_gephi(self, path_out):
+    def write_gephi(self, path_out, G=None):
         """
         Writes the graph to a Gephi-compatible file
         """
-        nx.write_gexf(self.G, path_out + "_graph_export.gexf")
+        if G is None:
+            G = self.G
+        nx.write_gexf(G, path_out + "_graph_export.gexf")
 
 
 class ProfileGraph(Graph):
